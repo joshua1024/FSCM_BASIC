@@ -9,6 +9,11 @@ void loop() {
   fscmTFReadInputs();
   fscmTFSetStatLed(ledRightID, CRGB(!fscmTRTVal * 255, !fscmTRTVal * 105 + fscmTRTVal * 130, fscmTRTVal * 60));
   fscmTFSetStatLed(ledTogLightID, CRGB(fscmTETVal * 255, fscmTETVal * 250 + !fscmTETVal * 35, !fscmTETVal * 8 + fscmTETVal * 140));
+  if (fscmTRTVal) {
+    modeVal = modeU;
+  } else {
+    modeVal = modeD;
+  }
   fscmTFFscmDComms();
   fscmTFFscmFComms();
   fscmTFLedDisplay();
@@ -59,6 +64,7 @@ void fscmTFDataToParseFromFscmF() {
   fscmFWA = fscmTFParseDataFscmFFl();
 }
 void fscmTFDataToSendToFscmF() {
+  fscmTFSendDataFscmFBy(modeVal);
   fscmTFSendDataFscmFBl(fscmRequestHomeSet);
   fscmTFSendDataFscmFBy(fscmTETVal);//enable
   fscmTFSendDataFscmFBy(fscmTLJYBVal);
@@ -133,6 +139,8 @@ void fscmTFDataToSendToFscmD() {
   fscmTFSendDataFscmDFl(fscmFWA);
 }
 void fscmTFDataToParseFromFscmD() {
+  modeD = fscmTFParseDataFscmDBy();
+  modeU = fscmTFParseDataFscmDBy();
   fscmRequestHomeSet = fscmTFParseDataFscmDBl();
   fscmDWarnings = fscmTFParseDataFscmDBl();
   pointsWNum = fscmTFParseDataFscmDBy();

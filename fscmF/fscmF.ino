@@ -32,11 +32,13 @@ void fscmFFDataToParseFromFscmC() {
   fscmCRoll = fscmFFParseDataFscmCFl();
 }
 void fscmFFDataToSendToFscmC() {
+  fscmFFSendDataFscmCBy(modeVal);
   fscmFFSendDataFscmCBl(fscmFEnabled);
   fscmFFSendDataFscmCBl(fscmHomeSet);
   fscmFFSendDataFscmCFl(fscmFHeading);
   fscmFFSendDataFscmCFl(fscmFPitch);
   fscmFFSendDataFscmCFl(fscmFRoll);
+  fscmFFSendDataFscmCFl(fscmFGAlt);
   fscmFFSendDataFscmCBy(jly);
   fscmFFSendDataFscmCBy(jlx);
   fscmFFSendDataFscmCBy(jry);
@@ -89,6 +91,7 @@ void fscmFFDataToSendToFscmT() {
   fscmFFSendDataFscmTFl(fscmFWA);
 }
 void fscmFFDataToParseFromFscmT() {
+  modeVal = fscmFFParseDataFscmTBy();
   fscmRequestHomeSet = fscmFFParseDataFscmTBl();
   fscmFEnabled = fscmFFParseDataFscmTBy();
   jly = fscmFFParseDataFscmTBy();

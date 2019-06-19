@@ -108,11 +108,13 @@ void fscmCFDataToSendToFscmF() {
   fscmCFSendDataFscmFFl(fscmCRoll);
 }
 void fscmCFDataToParseFromFscmF() {
+  modeVal = fscmCFParseDataFscmFBy();
   fscmCEnabled = fscmCFParseDataFscmFBl();
   fscmHomeSet = fscmCFParseDataFscmFBl();
   fscmFHeading = fscmCFParseDataFscmFFl();
   fscmFPitch = fscmCFParseDataFscmFFl();
   fscmFRoll = fscmCFParseDataFscmFFl();
+  fscmFGAlt = fscmCFParseDataFscmFFl();
   jly = fscmCFParseDataFscmFBy();
   jlx = fscmCFParseDataFscmFBy();
   jry = fscmCFParseDataFscmFBy();

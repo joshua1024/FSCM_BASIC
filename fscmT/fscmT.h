@@ -1,4 +1,6 @@
-
+byte modeD = 1;
+byte modeU = 2;
+byte modeVal = 1;
 float PXR = 0.0000;
 float IXR = 0.0000;
 float DXR = 0.0000;
