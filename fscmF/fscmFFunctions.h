@@ -60,6 +60,7 @@ float fscmFWH = 0.00;
 float fscmFWD = 0.00;
 float fscmFWA = 0.00;
 ////////////////////////////////////////recieve from fscmT
+byte modeVal = 1;
 boolean fscmRequestHomeSet = false;
 byte jrx = 0;
 byte jry = 0;

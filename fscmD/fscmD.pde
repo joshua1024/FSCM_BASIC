@@ -16,11 +16,28 @@ fscmdButton TLB;
 fscmdButton SWPB;
 fscmdButton SPB;
 fscmdButton LPB;
+fscmdButton UMB;
+fscmdButton DMB;
 fscmdMapStatus MS;
 fscmdSlider WPCEDS;
 fscmdSlider WAS;
 fscmdButton SSB;
 fscmdButton LSB;
+fscmdSlider PXRS;
+fscmdSlider IXRS;
+fscmdSlider DXRS;
+fscmdSlider PYRS;
+fscmdSlider IYRS;
+fscmdSlider DYRS;
+fscmdSlider PZRS;
+fscmdSlider IZRS;
+fscmdSlider DZRS;
+fscmdSlider PXAS;
+fscmdSlider IXAS;
+fscmdSlider DXAS;
+fscmdSlider PYAS;
+fscmdSlider IYAS;
+fscmdSlider DYAS;
 //////////////////constants to pass in/////////////////////////////////////////////////////
 float maxDispFlyDistMeters=1000;
 float WARNINGALT=0;
@@ -80,11 +97,28 @@ long lastWarned=0;
 boolean altwarningsilenced=false;
 boolean sendWPoints=false;
 ///////////////////////////values to send
+byte modeD=1;
+byte modeU=2;
 byte pointsWNum=0;
 byte pointsWI=0;
 float pointsWLon=0.00;
 float pointsWLat=0.00;
 float pointsWAlt=0.00;
+float PXR=0.0000;
+float IXR=0.0000;
+float DXR=0.0000;
+float PYR=0.0000;
+float IYR=0.0000;
+float DYR=0.0000;
+float PZR=0.0000;
+float IZR=0.0000;
+float DZR=0.0000;
+float PXA=0.0000;
+float IXA=0.0000;
+float DXA=0.0000;
+float PYA=0.0000;
+float IYA=0.0000;
+float DYA=0.0000;
 ////////////////////////////////////////////////////////////////////////////////////
 void setup() {
   noSmooth();
@@ -93,7 +127,8 @@ void setup() {
   background(0);
   stroke(255);
   textSize(40);
-  text("loading FSCMd...", width*.4, height*.4);
+  text("loading FSCMd...", width*.4, height*.4); 
+  fscmdSetupFscmTComms();
   s=new Client(this, "localhost", 12340);
   setupPoints();
   MD=new fscmdMapDisplay(173, 225, 475, maxDispFlyDistMeters);
@@ -116,9 +151,25 @@ void setup() {
   LPB=new fscmdButton(173, 79, 55, 20, color(#D400FF), true, "loadP");
   SSB=new fscmdButton(173, 103, 55, 20, color(#5AFF03), true, " sv set");
   LSB=new fscmdButton(173, 127, 55, 20, color(#03FF72), true, " ld set");
+  UMB=new fscmdButton(235, 105, 80, 22, color(0, 130, 200), true, "rotation");
+  DMB=new fscmdButton(235, 130, 80, 22, color(255, 135, 50), true, "manual");
   WPCEDS=new fscmdSlider(243, 160, 20, color(255, 0, 255), "wpce", WAYPOINT_CLOSE_ENOUGH_DIST, 0, 30); //  fscmdSlider(float X, float Y, float W, color C, String T, float VAL, float MIN, float MAX) 
   WAS=new fscmdSlider(243, 172, 20, color(100, 20, 20), "wrnA", WARNINGALT, -2, 10);
-  fscmdSetupFscmTComms();//nothing needs to be called in draw()
+  PXRS=new fscmdSlider(390, 112, 50, color(0, 200, 0), "PXR", PXR, 0, 1);
+  IXRS=new fscmdSlider(390, 122, 50, color(200, 0, 0), "IXR", IXR, 0, 1);
+  DXRS=new fscmdSlider(390, 132, 50, color(0, 0, 200), "DXR", DXR, 0, 1);
+  PYRS=new fscmdSlider(390, 142, 50, color(0, 200, 0), "PYR", PYR, 0, 1);
+  IYRS=new fscmdSlider(390, 152, 50, color(200, 0, 0), "IYR", IYR, 0, 1);
+  DYRS=new fscmdSlider(390, 162, 50, color(0, 0, 200), "DYR", DYR, 0, 1);
+  PZRS=new fscmdSlider(390, 172, 50, color(0, 200, 0), "PZR", PZR, 0, 1);
+  IZRS=new fscmdSlider(390, 182, 50, color(200, 0, 0), "IZR", IZR, 0, 1);
+  DZRS=new fscmdSlider(390, 192, 50, color(0, 0, 200), "DZR", DZR, 0, 1);
+  PXAS=new fscmdSlider(550, 110, 50, color(90, 200, 90), "PXA", PXA, 0, 1);
+  IXAS=new fscmdSlider(550, 120, 50, color(200, 90, 90), "IXA", IXA, 0, 1);
+  DXAS=new fscmdSlider(550, 130, 50, color(90, 90, 200), "DXA", DXA, 0, 1);
+  PYAS=new fscmdSlider(550, 140, 50, color(90, 200, 90), "PYA", PYA, 0, 1);
+  IYAS=new fscmdSlider(550, 150, 50, color(200, 90, 90), "IYA", IYA, 0, 1);
+  DYAS=new fscmdSlider(550, 160, 50, color(90, 90, 200), "DYA", DYA, 0, 1);
   s.write("f s c m starting,#");
 }
 void draw() {
@@ -135,6 +186,53 @@ void draw() {
     TLB.msg="log tel";
   }
   telogging=TLB.display(telogging);
+  if (DMB.jp&&fscmTRTVal==true) {
+    modeD++;
+    if (modeD>3) {
+      modeD=1;
+    }
+  }
+  if (modeD==1) {
+    DMB.msg="manual";
+  }
+  if (modeD==2) {
+    DMB.msg="rotation";
+  }
+  if (modeD==3) {
+    DMB.msg="angle";
+  }
+  DMB.display(!fscmTRTVal);
+  if (UMB.jp&&fscmTRTVal==false) {
+    modeU++;
+    if (modeU>3) {
+      modeU=1;
+    }
+  }
+  if (modeU==1) {
+    UMB.msg="manual";
+  }
+  if (modeU==2) {
+    UMB.msg="rotation";
+  }
+  if (modeU==3) {
+    UMB.msg="angle";
+  }
+  UMB.display(fscmTRTVal);
+  PXR= PXRS.display(PXR);
+  IXR= IXRS.display(IXR);
+  DXR= DXRS.display(DXR);
+  PYR= PYRS.display(PYR);
+  IYR= IYRS.display(IYR);
+  DYR= DYRS.display(DYR);
+  PZR= PZRS.display(PZR);
+  IZR= IZRS.display(IZR);
+  DZR= DZRS.display(DZR);
+  PXA= PXAS.display(PXA);
+  IXA= IXAS.display(IXA);
+  DXA= DXAS.display(DXA);
+  PYA= PYAS.display(PYA);
+  IYA= IYAS.display(IYA);
+  DYA= DYAS.display(DYA);
   SPB.display(false);
   LPB.display(false);
   if (SPB.jp) {
@@ -146,16 +244,50 @@ void draw() {
   SSB.display(false);
   LSB.display(false);
   if (SSB.jp) {
-    String setfl[]=new String[10];
+    String setfl[]=new String[20];
     setfl[1]=str(WARNINGALT);
     setfl[2]=str(WAYPOINT_CLOSE_ENOUGH_DIST);
+    setfl[3]=str(PXR);
+    setfl[4]=str(IXR);
+    setfl[5]=str(DXR);
+    setfl[6]=str(PYR);
+    setfl[7]=str(IYR);
+    setfl[8]=str(DYR);
+    setfl[9]=str(PZR);
+    setfl[10]=str(IZR);
+    setfl[11]=str(DZR);
+    setfl[12]=str(PXA);
+    setfl[13]=str(IXA);
+    setfl[14]=str(DXA);
+    setfl[15]=str(PYA);
+    setfl[16]=str(IYA);
+    setfl[17]=str(DYA);
+    setfl[18]=str(modeD);
+    setfl[19]=str(modeU);
     saveStrings("settings/settings.txt", setfl);
   }
   if (LSB.jp||frameCount==1) {
     try {
       String setfl[]=loadStrings("settings/settings.txt");
       WARNINGALT=float(setfl[1]);
-      WAYPOINT_CLOSE_ENOUGH_DIST=float(setfl[2]);
+      WAYPOINT_CLOSE_ENOUGH_DIST=float(setfl[2]); 
+      PXR=float(setfl[3]);
+      IXR=float(setfl[4]);
+      DXR=float(setfl[5]);
+      PYR=float(setfl[6]);
+      IYR=float(setfl[7]);
+      DYR=float(setfl[8]);
+      PZR=float(setfl[9]);
+      IZR=float(setfl[10]);
+      DZR=float(setfl[11]);
+      PXA=float(setfl[12]);
+      IXA=float(setfl[13]);
+      DXA=float(setfl[14]);
+      PYA=float(setfl[15]);
+      IYA=float(setfl[16]);
+      DYA=float(setfl[17]);
+      modeD=byte(float(setfl[18]));
+      modeU=byte(float(setfl[19]));
     }
     catch(Exception e) {
       println("error loading settings");
@@ -198,7 +330,13 @@ void draw() {
     "fscmFWH", 
     "fscmFWD", 
     "fscmFWA", 
-    "etv"
+    "etv", 
+    "fscmTRJXBVal", 
+    "fscmTRJYBVal", 
+    "fscmTLJXBVal", 
+    "fscmTLJYBVal", 
+    "fscmTLKBVal", 
+    "fscmTRKBVal"
   };
   float[] dispVal={
     int(fscmHomeSet), 
@@ -233,7 +371,13 @@ void draw() {
     fscmFWH, 
     fscmFWD, 
     fscmFWA, 
-    int(fscmTETVal)
+    int(fscmTETVal), 
+    fscmTRJXBVal, 
+    fscmTRJYBVal, 
+    fscmTLJXBVal, 
+    fscmTLJYBVal, 
+    fscmTLKBVal, 
+    fscmTRKBVal
   };
   fscmdDisplayInfo(dispMsg, dispVal, 0, 250, 170, 450, 10);
   MBGBOO.display(fscmFOriSystemCal);
@@ -297,6 +441,8 @@ void fscmdDataToParseFromFscmT() {
   fscmFWD=fscmdParseFscmTFl();
 }
 void fscmdDataToSendToFscmT() {
+  fscmdSendDataFscmTBy(modeD);
+  fscmdSendDataFscmTBy(modeU);
   fscmdSendDataFscmTBl(setHome);
   fscmdSendDataFscmTBl(numWarnings>0);
   fscmdSendDataFscmTBy(pointsWNum);
@@ -305,6 +451,21 @@ void fscmdDataToSendToFscmT() {
   fscmdSendDataFscmTFl(pointsWLat);
   fscmdSendDataFscmTFl(pointsWAlt);
   fscmdSendDataFscmTFl(WAYPOINT_CLOSE_ENOUGH_DIST);
+  fscmdSendDataFscmTFl(PXR);
+  fscmdSendDataFscmTFl(IXR);
+  fscmdSendDataFscmTFl(DXR);
+  fscmdSendDataFscmTFl(PYR);
+  fscmdSendDataFscmTFl(IYR);
+  fscmdSendDataFscmTFl(DYR);
+  fscmdSendDataFscmTFl(PZR);
+  fscmdSendDataFscmTFl(IZR);
+  fscmdSendDataFscmTFl(DZR);
+  fscmdSendDataFscmTFl(PXA);
+  fscmdSendDataFscmTFl(IXA);
+  fscmdSendDataFscmTFl(DXA);
+  fscmdSendDataFscmTFl(PYA);
+  fscmdSendDataFscmTFl(IYA);
+  fscmdSendDataFscmTFl(DYA);
 }
 void runWarnings() {
   numWarnings=0;
