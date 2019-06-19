@@ -7,6 +7,7 @@ void setup() {
 }
 void loop() {
   fscmTFReadInputs();
+  fscmTFSetStatLed(ledRightID, CRGB(!fscmTRTVal * 255, !fscmTRTVal * 105 + fscmTRTVal * 130, fscmTRTVal * 60));
   fscmTFSetStatLed(ledTogLightID, CRGB(fscmTETVal * 255, fscmTETVal * 250 + !fscmTETVal * 35, !fscmTETVal * 8 + fscmTETVal * 140));
   fscmTFFscmDComms();
   fscmTFFscmFComms();
@@ -74,6 +75,21 @@ void fscmTFDataToSendToFscmF() {
   fscmTFSendDataFscmFFl(pointsWLat);
   fscmTFSendDataFscmFFl(pointsWAlt);
   fscmTFSendDataFscmFFl(WaypointCloseEnoughDist);
+  fscmTFSendDataFscmFFl(PXR);
+  fscmTFSendDataFscmFFl(IXR);
+  fscmTFSendDataFscmFFl(DXR);
+  fscmTFSendDataFscmFFl(PYR);
+  fscmTFSendDataFscmFFl(IYR);
+  fscmTFSendDataFscmFFl(DYR);
+  fscmTFSendDataFscmFFl(PZR);
+  fscmTFSendDataFscmFFl(IZR);
+  fscmTFSendDataFscmFFl(DZR);
+  fscmTFSendDataFscmFFl(PXA);
+  fscmTFSendDataFscmFFl(IXA);
+  fscmTFSendDataFscmFFl(DXA);
+  fscmTFSendDataFscmFFl(PYA);
+  fscmTFSendDataFscmFFl(IYA);
+  fscmTFSendDataFscmFFl(DYA);
 }
 void fscmTFDataToSendToFscmD() {
   fscmTFSendDataFscmDBl(fscmHomeSet);
@@ -125,4 +141,19 @@ void fscmTFDataToParseFromFscmD() {
   pointsWLat = fscmTFParseDataFscmDFl();
   pointsWAlt = fscmTFParseDataFscmDFl();
   WaypointCloseEnoughDist = fscmTFParseDataFscmDFl();
+  PXR = fscmTFParseDataFscmDFl();
+  IXR = fscmTFParseDataFscmDFl();
+  DXR = fscmTFParseDataFscmDFl();
+  PYR = fscmTFParseDataFscmDFl();
+  IYR = fscmTFParseDataFscmDFl();
+  DYR = fscmTFParseDataFscmDFl();
+  PZR = fscmTFParseDataFscmDFl();
+  IZR = fscmTFParseDataFscmDFl();
+  DZR = fscmTFParseDataFscmDFl();
+  PXA = fscmTFParseDataFscmDFl();
+  IXA = fscmTFParseDataFscmDFl();
+  DXA = fscmTFParseDataFscmDFl();
+  PYA = fscmTFParseDataFscmDFl();
+  IYA = fscmTFParseDataFscmDFl();
+  DYA = fscmTFParseDataFscmDFl();
 }

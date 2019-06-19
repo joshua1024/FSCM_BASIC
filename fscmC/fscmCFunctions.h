@@ -11,4 +11,4 @@ unsigned long lastRecievedFscmF = 0;
 float fscmFHeading, fscmFPitch, fscmFRoll = 0.000;
 boolean fscmHomeSet = false;
 unsigned long lastCalcedGyro = 0;
-boolean justRecvdFscmF=false;
+boolean justRecvdFscmF = false;

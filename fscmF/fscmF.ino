@@ -45,6 +45,21 @@ void fscmFFDataToSendToFscmC() {
   fscmFFSendDataFscmCBy(rk);
   fscmFFSendDataFscmCBl(lt);
   fscmFFSendDataFscmCBl(rt);
+  fscmFFSendDataFscmCFl(PXR);
+  fscmFFSendDataFscmCFl(IXR);
+  fscmFFSendDataFscmCFl(DXR);
+  fscmFFSendDataFscmCFl(PYR);
+  fscmFFSendDataFscmCFl(IYR);
+  fscmFFSendDataFscmCFl(DYR);
+  fscmFFSendDataFscmCFl(PZR);
+  fscmFFSendDataFscmCFl(IZR);
+  fscmFFSendDataFscmCFl(DZR);
+  fscmFFSendDataFscmCFl(PXA);
+  fscmFFSendDataFscmCFl(IXA);
+  fscmFFSendDataFscmCFl(DXA);
+  fscmFFSendDataFscmCFl(PYA);
+  fscmFFSendDataFscmCFl(IYA);
+  fscmFFSendDataFscmCFl(DYA);
 }
 void fscmFFDataToSendToFscmT() {
   fscmFFSendDataFscmTBl(fscmHomeSet);
@@ -90,4 +105,20 @@ void fscmFFDataToParseFromFscmT() {
   pointsWLat = fscmFFParseDataFscmTFl();
   pointsWAlt = fscmFFParseDataFscmTFl();
   WAYPOINT_CLOSE_ENOUGH_DIST = fscmFFParseDataFscmTFl();
+  PXR = fscmFFParseDataFscmTFl();
+  IXR = fscmFFParseDataFscmTFl();
+  DXR = fscmFFParseDataFscmTFl();
+  PYR = fscmFFParseDataFscmTFl();
+  IYR = fscmFFParseDataFscmTFl();
+  DYR = fscmFFParseDataFscmTFl();
+  PZR = fscmFFParseDataFscmTFl();
+  IZR = fscmFFParseDataFscmTFl();
+  DZR = fscmFFParseDataFscmTFl();
+  PXA = fscmFFParseDataFscmTFl();
+  IXA = fscmFFParseDataFscmTFl();
+  DXA = fscmFFParseDataFscmTFl();
+  PYA = fscmFFParseDataFscmTFl();
+  IYA = fscmFFParseDataFscmTFl();
+  DYA = fscmFFParseDataFscmTFl();
+
 }
