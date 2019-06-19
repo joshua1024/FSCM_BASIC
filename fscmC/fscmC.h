@@ -24,6 +24,8 @@ float fscmFHeading, fscmFPitch, fscmFRoll = 0.000;
 
 double PXR = 0.0000;
 double IXR = 0.0000;
+double DXR = 0.0000;
+double PYR = 0.0000;
 double IYR = 0.0000;
 double DYR = 0.0000;
 double PZR = 0.0000;
